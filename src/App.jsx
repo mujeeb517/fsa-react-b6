@@ -1,8 +1,4 @@
-import React from 'react';
-import Footer from './Footer';
-import Header from './Header';
-import Person from './Person';
-import ProductList from './ProductList';
+import ProductList from './Products/ProductList';
 
 function App() {
     return <div className="xyz">
