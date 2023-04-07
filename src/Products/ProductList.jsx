@@ -11,6 +11,7 @@ function ProductList() {
     return <div className="m-4">
         <h1 className="text-3xl text-gray-700">Product List</h1>
         {products.map(product => <ProductItem key={product.id} product={product} />)}
+        {/* {products.map(p => <ProductItem key={p.id} product={p} />)} */}
     </div>
 }
 
