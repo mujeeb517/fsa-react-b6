@@ -13,9 +13,16 @@ const Header = () => {
             <ul className="flex">
                 <li className="m-1"><Link to="/">Home</Link></li>
                 <li className="m-1"><Link to="/about">About</Link></li>
-                <li className="m-1"><Link to="/contact">Contact</Link></li>
+                <li className="m-1">
+                    <Link to="/products">Products</Link>
+                </li>
                 <li className="m-1"><Link to="/users">Users</Link></li>
+                <li className="m-1"><Link to="/contact">Contact</Link></li>
             </ul>
+            <div>
+                <Link to="/login" className="px-2 border border-gray-300 mr-2 rounded bg-orange-300">Login</Link>
+                <button className="rounded px-2 border border-gray-300">Signup</button>
+            </div>
         </div>
     )
 };

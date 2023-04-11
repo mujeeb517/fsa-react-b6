@@ -4,6 +4,8 @@ import About from './About';
 import Contact from './Contact';
 import NotFound from './NotFound';
 import UserList from './Users/UserList';
+import ProductList from './Products/ProductList';
+import Login from './Login';
 
 function AppRoutes() {
     return (<Routes>
@@ -11,6 +13,8 @@ function AppRoutes() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/users" element={<UserList />} />
+        <Route path="/products" element={<ProductList />} />
+        <Route path="login" element={<Login />} />
         {/* <Route path="*" element={<Navigate to="/" />} /> */}
         <Route path="*" element={<NotFound />} />
     </Routes>);
