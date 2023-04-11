@@ -1,10 +1,12 @@
-import Counter from './Counter';
-import ProductList from './Products/ProductList';
-import UserList from './Users/UserList';
+import Footer from './Footer';
+import Header from './Header';
+import AppRoutes from './AppRoutes';
 
 function App() {
-    return <div className="xyz">
-        <UserList />
+    return <div>
+        <Header />
+        <AppRoutes />
+        <Footer />
     </div>;
 }
 

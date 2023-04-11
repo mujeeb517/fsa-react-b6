@@ -1,9 +1,9 @@
 const Footer = () => {
-    const styleObj = {
-        color: 'green',
-        backgroundColor: 'yellow'
-    };
-    return <h1 style={styleObj}>Footer</h1>;
+    return (
+        <div className="bg-gray-400 text-white text-center h-10">
+            &copy;2023 fsa.com
+        </div>
+    );
 };
 
 export default Footer;
