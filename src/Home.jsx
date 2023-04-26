@@ -1,9 +1,10 @@
-import Counter2 from "./Counter2";
+import Counter3 from "./Counter3";
 
 function Home() {
-    return (<div>
+
+    return (<div className="m-2">
         <h1>Home Page</h1>
-        <Counter2 />
+        <Counter3 cnt={10000} />
     </div>);
 }
 
