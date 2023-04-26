@@ -21,7 +21,7 @@ import React from 'react';
 class Counter extends React.Component {
 
     state = {
-        count: 100
+        count: this.props.count
     };
 
     inc = () => {
@@ -35,6 +35,18 @@ class Counter extends React.Component {
         this.setState({
             count: this.state.count - 1
         });
+    }
+
+    // n times
+    componentDidUpdate() {
+        console.log('updated');
+    }
+
+    // n times
+    // suppress
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.count > 105) return false;
+        return true;
     }
 
     render() {

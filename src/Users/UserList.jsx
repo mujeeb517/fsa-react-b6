@@ -12,51 +12,22 @@ import ShouldRender from '../ShouldRender';
 class UserList extends Component {
 
     // default state
+    // constructor -> didMount -> shouldUpdate -> didUpdate -> willUnmount
     state = {
         users: [],
         loading: true,
         error: false
     };
 
-    constructor() {
-        super();
-        // fetch data
-        // api.github.com/users REST API
-        // GET, POST, PUT, DELETE, PATCH, http verbs
-        // http status codes:
-        /*
-            1xx - information pending
-            2xx - success 200, 201, 204
-            3xx - redirect 
-            4xx - client error 404,401, 400, 422 
-            5xx - server errors 500, 501,  
-        */
-        // read, create, update, delete, partially update
-        // api
-        // timers, events, file, db, api
-        /*
-            URL: https://api.github.com/users
-            verb: GET/POST/PUT/DELETE/PATCH
-            body: json/xml/...
-            Request headers: client
-                Content-type: application/json
-                Accept: application/xml
-            Response headers: server
-                Content-type: application/json
-                Accept: application/json
-
-            Loading
-        */
-        setTimeout(() => {
-            axios.get('https://api.github.com/users')
-                .then(response => {
-                    this.setState({
-                        users: response.data
-                    });
-                })
-                .catch(error => this.setState({ error: true }))
-                .finally(() => this.setState({ loading: false }));
-        }, 2000);
+    componentDidMount() {
+        axios.get('https://api.github.com/users')
+            .then(response => {
+                this.setState({
+                    users: response.data
+                });
+            })
+            .catch(error => this.setState({ error: true }))
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {
