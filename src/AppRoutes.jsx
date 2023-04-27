@@ -15,7 +15,7 @@ function AppRoutes() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/users" element={<UserListFunctional />} />
         <Route path="/products" element={<ProductList />} />
-        <Route path="login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         {/* <Route path="*" element={<Navigate to="/" />} /> */}
         <Route path="*" element={<NotFound />} />
     </Routes>);

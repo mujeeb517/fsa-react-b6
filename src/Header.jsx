@@ -1,6 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+
+    const navigate = useNavigate();
+
+    const onLogout = () => {
+        const res = window.confirm('Are you sure you want to logout');
+        if (res) {
+            localStorage.removeItem('token');
+            navigate('/login');
+        }
+    };
+
     return (
         <div className="flex bg-orange-500 text-white p-2">
             <span className="flex font-semibold text-xl mr-4">
@@ -20,8 +31,9 @@ const Header = () => {
                 <li className="m-1"><Link to="/contact">Contact</Link></li>
             </ul>
             <div>
-                <Link to="/login" className="px-2 border border-gray-300 mr-2 rounded bg-orange-300">Login</Link>
-                <button className="rounded px-2 border border-gray-300">Signup</button>
+                <Link to="/login" className="px-2 py-1 border border-gray-300 mr-2 rounded bg-orange-300">Login</Link>
+                <button className="rounded px-2 border border-gray-300 mr-2">Signup</button>
+                <button onClick={onLogout} className="rounded px-2 border border-gray-300">Logout</button>
             </div>
         </div>
     )
