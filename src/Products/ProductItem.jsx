@@ -1,9 +1,28 @@
+import ShouldRender from "../ShouldRender";
+
 function ProductItem({ product }) {
+
+    function getFinalPrice() {
+        const discountedAmount = (product.discount / 100) * product.price;
+        return product.price - discountedAmount;
+    }
+
     return <div className="max-w-md rounded-lg p-2 text-gray-600 mb-3 border border-gray-300">
         <h1 className="text-xl font-semibold">{product.brand} {product.model}</h1>
         <img className="rounded-t-lg" src={product.image} width="300" height="300" alt="product-item" />
-        <b>${product.price}</b>
         <div>
+            <ShouldRender condition={product.discount}>
+                <div>
+                    <div className="line-through">${product.price}</div>
+                    <div>
+                        <span className="text-2xl">${getFinalPrice()} </span>
+                        <span className="font-semibold ml-1">{product.discount}% Off</span>
+                    </div>
+                </div>
+            </ShouldRender>
+            <ShouldRender condition={!product.discount}>
+                <span className="text-2xl">${getFinalPrice()} </span>
+            </ShouldRender>
             In stock
             <input type="checkbox" checked={product.inStock} />
         </div>
@@ -26,7 +45,14 @@ function ProductItem({ product }) {
                 : <span className="text-lg text-gray-400">We do not know when this product will be available</span>
         }
 
-    </div>;
+    </div >;
 }
 
 export default ProductItem;
+
+
+/*
+    500, 10%
+
+    10/500 * 100
+*/

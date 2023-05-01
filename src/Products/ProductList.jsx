@@ -1,17 +1,49 @@
-// Container
-// Presentation
+import axios from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import ProductItem from './ProductItem';
+import { useNavigate } from 'react-router-dom';
+import ShouldRender from '../ShouldRender';
+// component created
+// fetch data
+// render data
+// pagination
+// searching
+// sorting
 
 function ProductList() {
-    const products = [
-        { id: 1, brand: 'Apple', model: 'Iphone X', price: 500.99, inStock: false, image: 'https://www.shutterstock.com/image-photo/new-york-usa-may-302018-260nw-1105476671.jpg' },
-        { id: 2, brand: 'Apple', model: 'Iphone 11', price: 700.99, inStock: true, image: 'https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-11-2.jpg' },
-        { id: 3, brand: 'Apple', model: 'Iphone 12', price: 800.99, inStock: true, image: 'https://cdn.dxomark.com/wp-content/uploads/medias/post-61183/iphone-12-pro-blue-hero.jpg' }];
+    const [response, setResponse] = useState({
+        metadata: {},
+        data: []
+    });
 
-    return <div className="m-4">
-        <h1 className="text-3xl text-gray-700">Product List</h1>
-        {products.map(product => <ProductItem key={product.id} product={product} />)}
-        {/* {products.map(p => <ProductItem key={p.id} product={p} />)} */}
+    const navigate = useNavigate();
+    const [hasError, setError] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const headers = {
+            authorization: `Bearer ${token}`
+        };
+        axios.get('https://fsa-api-b4.onrender.com/api/products', { headers })
+            .then(res => setResponse(res.data))
+            .catch(err => {
+                if (err.response.status === 401) {
+                    navigate('/login');
+                } else {
+                    setError(true);
+                }
+            });
+    }, []);
+
+    return <div>
+        <ShouldRender condition={hasError}>
+            <div className="bg-red-500 m-2">
+                Something went error, please try again
+            </div>
+        </ShouldRender>
+        <h1 className="text-lg font-bold">Products</h1>
+        {response.data.map(product => <ProductItem product={product} />)}
     </div>
 }
 
