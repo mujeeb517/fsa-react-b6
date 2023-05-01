@@ -11,6 +11,10 @@ import ShouldRender from '../ShouldRender';
 // searching
 // sorting
 
+// ui
+// change the page number
+// re-fetch data
+
 function ProductList() {
     const [response, setResponse] = useState({
         metadata: {},
@@ -19,13 +23,17 @@ function ProductList() {
 
     const navigate = useNavigate();
     const [hasError, setError] = useState(false);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [searchText, setSearchText] = useState('');
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         const headers = {
             authorization: `Bearer ${token}`
         };
-        axios.get('https://fsa-api-b4.onrender.com/api/products', { headers })
+        axios.get(`https://fsa-api-b4.onrender.com/api/products/page/${page}/limit/${limit}?search=${search}`, { headers })
             .then(res => setResponse(res.data))
             .catch(err => {
                 if (err.response.status === 401) {
@@ -34,7 +42,28 @@ function ProductList() {
                     setError(true);
                 }
             });
-    }, []);
+    }, [page, search]);
+
+
+    const onFirst = () => setPage(1);
+    const onPrev = () => {
+        if (page !== 1)
+            setPage(page - 1);
+    }
+    const onNext = () => {
+        if (page < response.metadata.pages) {
+            setPage(page + 1);
+        }
+    }
+    const onLast = () => setPage(response.metadata.pages);
+
+    const onSearch = evt => {
+        evt.preventDefault();
+        setPage(1);
+        setSearch(searchText);
+    };
+
+    const onSearchChange = evt => setSearchText(evt.target.value);
 
     return <div>
         <ShouldRender condition={hasError}>
@@ -43,6 +72,39 @@ function ProductList() {
             </div>
         </ShouldRender>
         <h1 className="text-lg font-bold">Products</h1>
+        <form className="m-2" onSubmit={onSearch}>
+            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input onChange={onSearchChange} type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Mockups, Logos..." />
+                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+            </div>
+        </form>
+        <div>
+            <button onClick={onFirst} className="text-gray-500 m-1 border border-gray-500 p-1 hover:bg-orange-500 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
+                </svg>
+            </button>
+            <button onClick={onPrev} className="text-gray-500 m-1 border border-gray-500 p-1 hover:bg-orange-500 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </button>
+            <span className="text-gray-500 mb-5">Page {page} of {response.metadata.pages} (Total: {response.metadata.count} )</span>
+            <button onClick={onNext} className="text-gray-500 m-1 border border-gray-500 p-1 hover:bg-orange-500 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
+            <button onClick={onLast} className="text-gray-500 m-1 border border-gray-500 p-1 hover:bg-orange-500 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
+        </div>
         {response.data.map(product => <ProductItem product={product} />)}
     </div>
 }
