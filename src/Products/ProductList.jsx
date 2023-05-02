@@ -21,7 +21,7 @@ function ProductList() {
     const [dir, setDir] = useState('');
 
     useEffect(() => {
-        axios.get(`/api/products/page/${page}/limit/${limit}?search=${search}&sort=${sort}&direction=${dir}`)
+        axios().get(`/api/products/page/${page}/limit/${limit}?search=${search}&sort=${sort}&direction=${dir}`)
             .then(res => setResponse(res.data))
             .catch(err => {
                 if (err.response.status === 401) {
