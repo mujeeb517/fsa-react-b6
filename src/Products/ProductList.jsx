@@ -2,8 +2,15 @@ import axios from '../utils/axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ProductItem from './ProductItem';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ShouldRender from '../ShouldRender';
+
+// analyze api
+// ui
+// state
+// api call
+// handle success
+// handle error
 
 function ProductList() {
     const [response, setResponse] = useState({
@@ -113,6 +120,7 @@ function ProductList() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
                 </svg>
             </button>
+            <Link className="m-2 border p-2 rounded text-white border-orange-500 bg-orange-500" to="/products/create">Add Product</Link>
         </div>
         {response.data.map(product => <ProductItem product={product} />)}
     </div>

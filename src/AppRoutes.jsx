@@ -7,6 +7,7 @@ import UserList from './Users/UserList';
 import ProductList from './Products/ProductList';
 import Login from './Login';
 import UserListFunctional from './Users/UserListFunctional';
+import CreateProduct from './Products/CreateProduct';
 
 function AppRoutes() {
     return (<Routes>
@@ -15,6 +16,7 @@ function AppRoutes() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/users" element={<UserListFunctional />} />
         <Route path="/products" element={<ProductList />} />
+        <Route path="/products/create" element={<CreateProduct />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path="*" element={<Navigate to="/" />} /> */}
         <Route path="*" element={<NotFound />} />
