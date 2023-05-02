@@ -1,19 +1,9 @@
-import axios from 'axios';
+import axios from '../utils/axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import ProductItem from './ProductItem';
 import { useNavigate } from 'react-router-dom';
 import ShouldRender from '../ShouldRender';
-// component created
-// fetch data
-// render data
-// pagination
-// searching
-// sorting
-
-// ui
-// change the page number
-// re-fetch data
 
 function ProductList() {
     const [response, setResponse] = useState({
@@ -27,13 +17,11 @@ function ProductList() {
     const [limit, setLimit] = useState(10);
     const [searchText, setSearchText] = useState('');
     const [search, setSearch] = useState('');
+    const [sort, setSort] = useState('');
+    const [dir, setDir] = useState('');
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const headers = {
-            authorization: `Bearer ${token}`
-        };
-        axios.get(`https://fsa-api-b4.onrender.com/api/products/page/${page}/limit/${limit}?search=${search}`, { headers })
+        axios.get(`/api/products/page/${page}/limit/${limit}?search=${search}&sort=${sort}&direction=${dir}`)
             .then(res => setResponse(res.data))
             .catch(err => {
                 if (err.response.status === 401) {
@@ -42,7 +30,7 @@ function ProductList() {
                     setError(true);
                 }
             });
-    }, [page, search]);
+    }, [page, search, sort, dir]);
 
 
     const onFirst = () => setPage(1);
@@ -65,6 +53,18 @@ function ProductList() {
 
     const onSearchChange = evt => setSearchText(evt.target.value);
 
+    const onSortChange = evt => {
+        const value = evt.target.value;
+        if (value) {
+            const tokens = value.split(':');
+            setSort(tokens[0]);
+            setDir(tokens[1]);
+        } else {
+            setSort('');
+            setDir('');
+        }
+    };
+
     return <div>
         <ShouldRender condition={hasError}>
             <div className="bg-red-500 m-2">
@@ -83,6 +83,15 @@ function ProductList() {
             </div>
         </form>
         <div>
+            <select onChange={onSortChange} className="m-2 p-2 border border-gray-500 rounded">
+                <option value="">Sort By</option>
+                <option value="price:asc">Price Low to High</option>
+                <option value="price:desc">Price High to Low</option>
+                <option value="brand:asc">Name Asc</option>
+                <option value="brand:desc">Name Desc</option>
+                <option value="discount:asc">Discount Low to High</option>
+                <option value="discount:desc">Discount High to Low</option>
+            </select>
             <button onClick={onFirst} className="text-gray-500 m-1 border border-gray-500 p-1 hover:bg-orange-500 hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
