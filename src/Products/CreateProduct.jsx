@@ -21,7 +21,7 @@ function CreateProduct() {
         price: '',
         inStock: false,
         discount: '',
-        image: ''
+        image: null
     });
 
     const [success, setSuccess] = useState(false);
@@ -40,7 +40,7 @@ function CreateProduct() {
     const onSave = async () => {
         try {
             const productToSave = { ...product };
-            productToSave.inStock = !!productToSave.inStock;
+            productToSave.inStock = productToSave.inStock === "on";
 
             const frm = new FormData();
             frm.append('brand', productToSave.brand);
@@ -59,7 +59,7 @@ function CreateProduct() {
                 price: '',
                 inStock: false,
                 discount: '',
-                image: ''
+                image: null
             });
         } catch (err) {
             console.log(err);
@@ -75,7 +75,10 @@ function CreateProduct() {
         setProduct(newState);
     };
 
-    const { brand, model, inStock, price, discount, image } = product;
+    // "100" -> 100
+    // 100 -> "1000"
+
+    const { brand, model, inStock, price, discount } = product;
 
     return (<div className="m-2 w-1/2">
         <ShouldRender condition={success}>

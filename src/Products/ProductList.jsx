@@ -5,6 +5,11 @@ import ProductItem from './ProductItem';
 import { Link, useNavigate } from 'react-router-dom';
 import ShouldRender from '../ShouldRender';
 
+
+// Link UI
+// navigate 
+// Route change
+
 function ProductList() {
 
     const [response, setResponse] = useState({
@@ -116,7 +121,9 @@ function ProductList() {
             </button>
             <Link className="m-2 border p-2 rounded text-white border-orange-500 bg-orange-500" to="/products/create">Add Product</Link>
         </div>
-        {response.data.map(product => <ProductItem product={product} />)}
+        {response.data.map(product => <Link to={`/products/detail/${product._id}`}>
+            <ProductItem product={product} />
+        </Link>)}
     </div>
 }
 

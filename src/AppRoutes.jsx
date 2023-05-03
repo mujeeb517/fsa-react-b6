@@ -3,11 +3,11 @@ import Home from './Home';
 import About from './About';
 import Contact from './Contact';
 import NotFound from './NotFound';
-import UserList from './Users/UserList';
 import ProductList from './Products/ProductList';
 import Login from './Login';
 import UserListFunctional from './Users/UserListFunctional';
 import CreateProduct from './Products/CreateProduct';
+import ProductDetails from './Products/ProductDetail';
 
 function AppRoutes() {
     return (<Routes>
@@ -17,6 +17,7 @@ function AppRoutes() {
         <Route path="/users" element={<UserListFunctional />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/create" element={<CreateProduct />} />
+        <Route path="/products/detail/:id" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
         {/* <Route path="*" element={<Navigate to="/" />} /> */}
         <Route path="*" element={<NotFound />} />
