@@ -5,14 +5,8 @@ import ProductItem from './ProductItem';
 import { Link, useNavigate } from 'react-router-dom';
 import ShouldRender from '../ShouldRender';
 
-// analyze api
-// ui
-// state
-// api call
-// handle success
-// handle error
-
 function ProductList() {
+
     const [response, setResponse] = useState({
         metadata: {},
         data: []
@@ -89,7 +83,7 @@ function ProductList() {
                 <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
             </div>
         </form>
-        <div>
+        <div className="flex items-center justify-start">
             <select onChange={onSortChange} className="m-2 p-2 border border-gray-500 rounded">
                 <option value="">Sort By</option>
                 <option value="price:asc">Price Low to High</option>
@@ -109,7 +103,7 @@ function ProductList() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
             </button>
-            <span className="text-gray-500 mb-5">Page {page} of {response.metadata.pages} (Total: {response.metadata.count} )</span>
+            <span className="text-gray-500">Page {page} of {response.metadata.pages} (Total: {response.metadata.count} )</span>
             <button onClick={onNext} className="text-gray-500 m-1 border border-gray-500 p-1 hover:bg-orange-500 hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
