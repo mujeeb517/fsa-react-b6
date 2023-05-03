@@ -20,7 +20,8 @@ function CreateProduct() {
         model: '',
         price: '',
         inStock: false,
-        discount: ''
+        discount: '',
+        image: ''
     });
 
     const [success, setSuccess] = useState(false);
@@ -38,7 +39,18 @@ function CreateProduct() {
 
     const onSave = async () => {
         try {
-            await axios().post('/api/products', product);
+            const productToSave = { ...product };
+            productToSave.inStock = !!productToSave.inStock;
+
+            const frm = new FormData();
+            frm.append('brand', productToSave.brand);
+            frm.append('model', productToSave.model);
+            frm.append('price', productToSave.price);
+            frm.append('inStock', productToSave.inStock);
+            frm.append('discount', productToSave.discount);
+            frm.append('image', productToSave.image);
+
+            await axios().post('/api/products', frm);
             // navigate('/products');
             setSuccess(true);
             setProduct({
@@ -46,14 +58,24 @@ function CreateProduct() {
                 model: '',
                 price: '',
                 inStock: false,
-                discount: ''
+                discount: '',
+                image: ''
             });
         } catch (err) {
             console.log(err);
         }
     }
 
-    const { brand, model, inStock, price, discount } = product;
+    const onFileChange = evt => {
+        const newState = {
+            ...product,
+            image: evt.target.files[0]
+        };
+
+        setProduct(newState);
+    };
+
+    const { brand, model, inStock, price, discount, image } = product;
 
     return (<div className="m-2 w-1/2">
         <ShouldRender condition={success}>
@@ -83,6 +105,9 @@ function CreateProduct() {
                 InStock
             </label>
             <input value={inStock} name="inStock" onChange={onChange} className="m-2 leading-tight" type="checkbox" />
+        </div>
+        <div>
+            <input onChange={onFileChange} type="file" className="m-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
         </div>
         <div>
             <button onClick={onSave} className="m-2 bg-orange-500 py-1 px-3 text-white">Save</button>
