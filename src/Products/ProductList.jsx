@@ -17,6 +17,8 @@ function ProductList() {
         data: []
     });
 
+    const [unauthorized, setUnauthorized] = useState(false);
+
     const navigate = useNavigate();
     const [hasError, setError] = useState(false);
     const [page, setPage] = useState(1);
@@ -71,7 +73,28 @@ function ProductList() {
         }
     };
 
+    const onProductDelete = (status) => {
+        if (status === 403) {
+            setUnauthorized(true);
+        } else {
+            axios().get(`/api/products/page/${page}/limit/${limit}?search=${search}&sort=${sort}&direction=${dir}`)
+                .then(res => setResponse(res.data))
+                .catch(err => {
+                    if (err.response.status === 401) {
+                        navigate('/login');
+                    } else {
+                        setError(true);
+                    }
+                });
+        }
+    };
+
     return <div>
+        <ShouldRender condition={unauthorized}>
+            <div className="m-2 p-2 bg-red-700 text-white rounded">
+                You do no have access to perform this operation
+            </div>
+        </ShouldRender>
         <ShouldRender condition={hasError}>
             <div className="bg-red-500 m-2">
                 Something went error, please try again
@@ -121,9 +144,11 @@ function ProductList() {
             </button>
             <Link className="m-2 border p-2 rounded text-white border-orange-500 bg-orange-500" to="/products/create">Add Product</Link>
         </div>
-        {response.data.map(product => <Link to={`/products/detail/${product._id}`}>
-            <ProductItem product={product} />
-        </Link>)}
+        {response.data.map(product =>
+            // <Link to={`/products/detail/${product._id}`}>
+            <ProductItem product={product} onDelete={onProductDelete} />
+            // </Link>
+        )}
     </div>
 }
 

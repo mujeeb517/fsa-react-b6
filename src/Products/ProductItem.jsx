@@ -1,6 +1,37 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ShouldRender from "../ShouldRender";
+import axios from '../utils/axios';
 
-function ProductItem({ product }) {
+// analyse api 
+// UI
+// api call
+// handle the outcome
+
+function ProductItem({ product, onDelete }) {
+
+    const [hasError, setError] = useState(false);
+    const navigate = useNavigate();
+
+    const onDel = async () => {
+        try {
+            const result = confirm('Are you sure?');
+            if (!result) return;
+
+            const id = product._id;
+            await axios().delete(`/api/products/${id}`);
+            onDelete();
+        } catch (err) {
+            if (err.response.status === 401) {
+                navigate('/login');
+            }
+            if (err.response.status === 403) {
+                onDelete(403);
+            } else {
+                setError(true);
+            }
+        }
+    };
 
     function getFinalPrice() {
         const discountedAmount = (product.discount / 100) * product.price;
@@ -45,7 +76,8 @@ function ProductItem({ product }) {
                 : <span className="text-lg text-gray-400">We do not know when this product will be available</span>
         }
 
-    </div >;
+        <button onClick={onDel} className="bg-red-500 py-1 px-2 text-white m-1 rounded">Delete</button>
+    </div>;
 }
 
 export default ProductItem;
