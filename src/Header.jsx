@@ -1,7 +1,10 @@
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AppContext from './context/AppContext';
+import ShouldRender from "./ShouldRender";
 
 const Header = () => {
-
+    const { isLoggedin } = useContext(AppContext);
     const navigate = useNavigate();
 
     const onLogout = () => {
@@ -31,9 +34,13 @@ const Header = () => {
                 <li className="m-1"><Link to="/contact">Contact</Link></li>
             </ul>
             <div>
-                <Link to="/login" className="px-2 py-1 border border-gray-300 mr-2 rounded bg-orange-300">Login</Link>
-                <button className="rounded px-2 border border-gray-300 mr-2">Signup</button>
-                <button onClick={onLogout} className="rounded px-2 border border-gray-300">Logout</button>
+                <ShouldRender condition={!isLoggedin}>
+                    <Link to="/login" className="px-2 py-1 border border-gray-300 mr-2 rounded bg-orange-300">Login</Link>
+                    <button className="rounded px-2 border border-gray-300 mr-2">Signup</button>
+                </ShouldRender>
+                <ShouldRender condition={isLoggedin}>
+                    <button onClick={onLogout} className="rounded px-2 border border-gray-300">Logout</button>
+                </ShouldRender>
             </div>
         </div>
     )
