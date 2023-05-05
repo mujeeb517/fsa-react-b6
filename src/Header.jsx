@@ -48,3 +48,26 @@ const Header = () => {
 };
 
 export default Header;
+
+// Vite
+// installed
+// setup
+// run
+// component
+// functional
+// low level React.createElement
+// jsx
+// class
+// props
+// state
+// renders
+// life cycle 
+// container & presenation
+// api 
+// data validation
+// data sharing 
+// routing
+// navigate
+// hooks
+// context api
+// Calculator

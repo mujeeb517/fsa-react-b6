@@ -1,3 +1,13 @@
 node_modules
+dist
 
 .vscode
+
+
+// concatenated
+// minified: white space removal
+// uglification: rename the variable
+// 208Kb
+
+// deployment
+// server
