@@ -10,8 +10,9 @@ function App() {
     const [isLoggedin, setLogin] = useState(false);
 
     useEffect(() => {
+        console.log('loggedin');
         setLogin(localStorage.getItem('token') ? true : false);
-    }, [isLoggedin])
+    }, [isLoggedin]);
 
     return <div>
         <AppContext.Provider value={{ isLoggedin, setLogin }}>

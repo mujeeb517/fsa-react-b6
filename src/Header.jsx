@@ -1,16 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AppContext from './context/AppContext';
 import ShouldRender from "./ShouldRender";
 
 const Header = () => {
-    const { isLoggedin } = useContext(AppContext);
+    const { isLoggedin, setLogin } = useContext(AppContext);
     const navigate = useNavigate();
 
     const onLogout = () => {
         const res = window.confirm('Are you sure you want to logout');
         if (res) {
             localStorage.removeItem('token');
+            setLogin(false);
             navigate('/login');
         }
     };
@@ -33,7 +34,7 @@ const Header = () => {
                 <li className="m-1"><Link to="/users">Users</Link></li>
                 <li className="m-1"><Link to="/contact">Contact</Link></li>
             </ul>
-            <div>
+            <div className="flex justify-center">
                 <ShouldRender condition={!isLoggedin}>
                     <Link to="/login" className="px-2 py-1 border border-gray-300 mr-2 rounded bg-orange-300">Login</Link>
                     <button className="rounded px-2 border border-gray-300 mr-2">Signup</button>

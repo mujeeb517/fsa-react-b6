@@ -2,8 +2,11 @@ import axios from 'axios';
 import { useState } from 'react';
 import ShouldRender from "./ShouldRender";
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import AppContext from './context/AppContext';
 
 function Login() {
+    const { setLogin } = useContext(AppContext);
     const navigate = useNavigate();
     const [user, setUser] = useState({
         email: '',
@@ -28,6 +31,8 @@ function Login() {
                 user
             );
             localStorage.setItem('token', res.data.token);
+            // refresh the conetxt
+            setLogin(true);
             navigate('/users');
         } catch (err) {
             setError(true);
